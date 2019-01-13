@@ -1,0 +1,24 @@
+<div class="column is-half">
+	<article class="media-box">
+		<div class="media-content"></div>
+	</article>
+
+
+  <% @clients.each do | client | %>
+    <% client.transactions.each do | transaction | %>
+      <div class="box">
+      	<article class="media">
+      		<div class="media-content">
+                  <div class="content">
+                      From: <strong><%= transaction.from %></strong><br/>
+                      To: <strong><%= transaction.to %></strong><br/>
+                      <p>Amount: <strong><%= transaction.amount %></strong></p>
+                      Client ID: <strong><%= transaction.client_id %> </strong>
+                  </div>
+              </div>
+      	</article>
+      </div>
+    <% end %>
+  <% end %>
+
+</div>

@@ -1,0 +1,22 @@
+<div class="column">
+	<nav class="panel">
+		<p class="panel-heading">Account Information</p>
+ 
+	  <% @clients.each do | client | %>
+
+	    <div class="panel-block">
+	    	<article class="media">
+	    		<div class="media-content">
+	    			<div class="content">
+	    				<p><%= client.name %></p>
+	    				<p>Balance: <%= client.balance %></p>
+	    			</div>
+	    		</div>
+	    	</article>
+	    </div>
+	  <% end %>
+	
+	</nav>
+
+
+</div>
