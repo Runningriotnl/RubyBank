@@ -32,6 +32,12 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+gem 'eventmachine', '1.0.9.1', require: 'em/pure_ruby'
+
+gem 'bulma-rails', '~> 0.7.2'
+gem 'simple_form', '~> 4.1'
+gem 'devise', '~> 4.5'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
@@ -43,6 +49,10 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
+  gem 'better_errors', '~> 2.5'
+  gem 'guard', '~> 2.15'
+  gem 'guard-bundler'
+  gem 'guard-livereload', '~> 2.5', '>= 2.5.2', require: false
 end
 
 group :test do
