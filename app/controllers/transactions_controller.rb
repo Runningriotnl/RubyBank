@@ -31,6 +31,9 @@ class TransactionsController < ApplicationController
       if @transaction.amount < current_user.balance  
         if @transaction.save
           @current_user.update!(balance: @current_user.balance - @transaction.amount)
+          @transaction.update!(from: @current_user.name, to: @transaction.user.name)
+          @transaction.user.update!(balance: @transaction.user.balance + @transaction.amount)
+
           format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
           format.json { render :show, status: :created, location: @transaction }
         else
@@ -75,6 +78,6 @@ class TransactionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def transaction_params
-      params.require(:transaction).permit(:from, :to, :amount, :client_id)
+      params.require(:transaction).permit(:from, :to, :amount, :user_id)
     end
 end
