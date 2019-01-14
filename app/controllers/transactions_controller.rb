@@ -1,10 +1,11 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /transactions
   # GET /transactions.json
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.all.order("created_at DESC")
   end
 
   # GET /transactions/1
@@ -27,12 +28,17 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(transaction_params)
 
     respond_to do |format|
-      if @transaction.save
-        format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
-        format.json { render :show, status: :created, location: @transaction }
+      if @transaction.amount < current_user.balance  
+        if @transaction.save
+          @current_user.update!(balance: @current_user.balance - @transaction.amount)
+          format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
+          format.json { render :show, status: :created, location: @transaction }
+        else
+          format.html { render :new }
+          format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        end
       else
-        format.html { render :new }
-        format.json { render json: @transaction.errors, status: :unprocessable_entity }
+        format.html { redirect_to new_transaction_path, notice: 'The amount exceeds balance available in account' }
       end
     end
   end

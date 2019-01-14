@@ -32,16 +32,30 @@
           <span></span>
         </div>
       </div>  
-    
-      <div id="navbarExample" class="navbar-menu">
-        <div class="navbar-end">
-          <div class="field is-grouped">
-            <p class="control">
-              <%= link_to 'New Client', new_client_path, class: "button is-warning is-inverted" %>
-            </p>
+
+      <% if user_signed_in? %>
+        <div id="navbarExample" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link_to 'Log out', destroy_user_session_path, method: :delete, class: "button is-warning is-inverted" %>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
+
+      <% if !user_signed_in? %>
+        <div id="navbarExample" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="field is-grouped">
+              <p class="control">
+                <%= link_to 'Login', new_user_session_path, class: "button is-warning is-inverted" %>
+              </p>
+            </div>
+          </div>
+        </div>
+      <% end %>
 
     </nav>
 
