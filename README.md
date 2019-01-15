@@ -1,24 +1,10 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Small ruby app that functions as a bank
 
-Things you may want to cover:
+To add a user run the following command in rails console:
+	User.create(:name => "Test", :email => "test@test.com", :password => "123456", :password_confirmation => "123456", :balance => 1000)
 
-* Ruby version
+The users can be update to add balance to their account.
 
-* System dependencies
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
