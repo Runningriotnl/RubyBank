@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations'}
-  resources :clients
   resource :transactions do
   	get "balance"
   end
