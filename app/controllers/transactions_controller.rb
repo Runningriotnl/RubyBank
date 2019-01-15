@@ -22,26 +22,42 @@ class TransactionsController < ApplicationController
   def edit
   end
 
+  def balance
+    @transactions = Transaction.all.order("created_at DESC")
+  end
+
   # POST /transactions
   # POST /transactions.json
   def create
     @transaction = Transaction.new(transaction_params)
 
     respond_to do |format|
-      if @transaction.amount < current_user.balance  
-        if @transaction.save
-          @current_user.update!(balance: @current_user.balance - @transaction.amount)
-          @transaction.update!(from: @current_user.name, to: @transaction.user.name)
-          @transaction.user.update!(balance: @transaction.user.balance + @transaction.amount)
-
-          format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
-          format.json { render :show, status: :created, location: @transaction }
+      if @transaction.amount > 0
+        if @transaction.amount < current_user.balance
+          if User.exists?(:id => @transaction.user_id)  
+            if @transaction.user_id != current_user.id  
+              if @transaction.save
+                @current_user.update!(balance: @current_user.balance - @transaction.amount)
+                @transaction.update!(from: @current_user.name, to: @transaction.user.name)
+                @transaction.user.update!(balance: @transaction.user.balance + @transaction.amount)
+      
+                format.html { redirect_to root_path, notice: 'Transaction was successfully created.' }
+                format.json { render :show, status: :created, location: @transaction }
+              else
+                format.html { render :new }
+                format.json { render json: @transaction.errors, status: :unprocessable_entity }
+              end
+            else
+            format.html { redirect_to new_transaction_path, alert: 'You cannot transfer money to yourself.' }
+            end
+          else
+            format.html { redirect_to new_transaction_path, alert: 'The user account does not exist.' }
+          end
         else
-          format.html { render :new }
-          format.json { render json: @transaction.errors, status: :unprocessable_entity }
+          format.html { redirect_to new_transaction_path, alert: 'The amount exceeds balance available in account.' }
         end
       else
-        format.html { redirect_to new_transaction_path, notice: 'The amount exceeds balance available in account' }
+        format.html { redirect_to new_transaction_path, alert: 'You cannot transfer a negative amount.' }
       end
     end
   end

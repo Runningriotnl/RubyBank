@@ -1,0 +1,53 @@
+<div class="column is-half">
+<% ledger = current_user.balance %>
+
+  <% @transactions.each do | transaction | %>
+    
+    <% if transaction.to == current_user.name %>
+      <div class="box">
+      	<article class="media">
+      		<div class="media-content">
+      			<div class="content">
+      				<%= transaction.created_at.localtime.strftime("%d-%m-%y at %H:%M") %> <br/>
+					New Balance: <strong><%= ledger %> </strong> <br/> 
+                    
+					Added amount: +<strong><%= transaction.amount %></strong><br/>
+					Old Balance: <%= ledger -= transaction.amount %> <br/>
+				</div>
+      		</div>
+      	</article>
+      </div>
+    <% end %>
+
+    <% if transaction.from == current_user.name %> 
+      <div class="box">
+      	<article class="media">
+      		<div class="media-content">
+      			<div class="content">
+      				<%= transaction.created_at.localtime.strftime("%d-%m-%y at %H:%M") %> <br/>
+					New Balance: <strong><%= ledger %> </strong> <br/> 
+                    
+					Subtracted amount: -<strong><%= transaction.amount %></strong><br/>
+					Old Balance: <%= ledger += transaction.amount %> <br/>
+				</div>                 
+                      
+
+      		</div>
+      	</article>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if ledger > 0 %>
+  <div class="box">
+      	<article class="media">
+      		<div class="media-content">
+      			<div class="content">                    
+					Initial Deposit: <strong><%= ledger %> </strong> <br/> 
+				</div>                  
+      		</div>
+      	</article>
+      </div>
+    <% end %>
+
+</div>

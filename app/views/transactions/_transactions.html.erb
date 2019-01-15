@@ -13,13 +13,16 @@
       		</div>
       		<div class="media-content">
       			<div class="content">
-      				From: <strong><%= transaction.from %></strong><br/>
+      				<%= transaction.created_at.localtime.strftime("%d-%m-%y at %H:%M") %> <br/>
+
+                    From: <strong><%= transaction.from %></strong><br/>
       				To: <strong><%= transaction.to %></strong><br/>
                     <% if transaction.to == current_user.name %>
       				  Amount: +<strong><%= transaction.amount %></strong><br/>
                     <% else %>
                       Amount: -<strong><%= transaction.amount %></strong><br/>
                     <% end %>
+
                       
                       <%= link_to transaction, method: :delete, data: { confirm: "Are you sure you want to delete this transaction?" } do %>
                           <span class="icon"><i class="fa fa-trash-o" aria-hidden="true"></i></span>
