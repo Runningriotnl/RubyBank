@@ -1,0 +1,16 @@
+<%= simple_form_for(@transaction) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+    <div class="column is-half">
+	    <div class="box">
+          	<article class="media">
+          		<div class="media-content">
+          			<div class="content">
+          				<%= f.input :amount, label: "How much money are you going to put on your account: " %>
+				</div>
+          		</div>
+          	</article>
+          </div>
+    </div>
+<%end%>

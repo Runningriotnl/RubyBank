@@ -26,6 +26,10 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.all.order("created_at DESC")
   end
 
+  def atm
+    @transaction = Transaction.new
+  end
+
   # POST /transactions
   # POST /transactions.json
   def create
